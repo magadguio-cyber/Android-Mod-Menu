@@ -9,13 +9,16 @@
 #include <fstream>
 #include <iostream>
 #include <dlfcn.h>
-#include "Includes/Logger.h"
-#include "Includes/obfuscate.h"
-#include "Includes/Utils.h"
+
+// Підключаємо файли з папки Includes напряму
+#include "Logger.h"
+#include "obfuscate.h"
+#include "Utils.h"
+#include "Macros.h"
+
+// Підключаємо файли меню та ImGui
 #include "Menu/Menu.hpp"
 #include "Menu/Jni.hpp"
-#include "Includes/Macros.h"
-#include "dobby.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 
