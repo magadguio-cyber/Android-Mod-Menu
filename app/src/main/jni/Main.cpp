@@ -10,11 +10,11 @@
 #include <iostream>
 #include <dlfcn.h>
 
-// Підключаємо файли з папки Includes напряму
-#include "Logger.h"
-#include "obfuscate.h"
-#include "Utils.h"
-#include "Macros.h"
+// Підключаємо файли з папки Includes за повним відносним шляхом
+#include "Includes/Logger.h"
+#include "Includes/obfuscate.h"
+#include "Includes/Utils.h"
+#include "Includes/Macros.h"
 
 // Підключаємо файли меню та ImGui
 #include "Menu/Menu.hpp"
@@ -29,7 +29,7 @@ bool speedhack = false;
 bool repair_car = false;
 bool inf_ammo = false;
 bool no_recoil = false;
-float menuColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+float menuColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 // Главная функция отрисовки твоего меню
 void DrawMyMenuWindow(bool* p_open) {
