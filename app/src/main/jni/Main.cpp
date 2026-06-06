@@ -1,37 +1,20 @@
-#include <list>
-#include <vector>
-#include <cstring>
-#include <pthread.h>
-#include <thread>
-#include <string>
 #include <jni.h>
-#include <unistd.h>
-#include <fstream>
-#include <iostream>
-#include <dlfcn.h>
+#include <string>
 
-// Підключаємо файли з папки Includes за повним відносним шляхом
-#include "Includes/Logger.h"
-#include "Includes/obfuscate.h"
-#include "Includes/Utils.h"
-#include "Includes/Macros.h"
+// Підключаємо тільки чистий ImGui
+#include "imgui.h"
+#include "imgui_internal.h"
 
-// Підключаємо файли меню та ImGui
-#include "Menu/Menu.hpp"
-#include "Menu/Jni.hpp"
-#include "imgui/imgui.h"
-#include "imgui/imgui_internal.h"
-
-// Глобальные переменные для хранения состояния кнопок
+// Глобальні змінні для меню
 bool godmode = false;
 bool inf_run = false;
 bool speedhack = false;
 bool repair_car = false;
 bool inf_ammo = false;
 bool no_recoil = false;
-float menuColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+float menuColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-// Главная функция отрисовки твоего меню
+// Головна функція малювання твого меню
 void DrawMyMenuWindow(bool* p_open) {
     if (!p_open || !*p_open) return;
 
@@ -72,4 +55,11 @@ void DrawMyMenuWindow(bool* p_open) {
     }
 
     ImGui::End();
+}
+
+// Обов'язкова системна функція ініціалізації для Android
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_gta_sa_MainActivity_stringFromJNI(JNIEnv* env, jobject /* thiz */) {
+    std::string hello = "Menu Initialized";
+    return env->NewStringUTF(hello.c_str());
 }
