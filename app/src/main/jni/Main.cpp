@@ -1,70 +1,72 @@
-#include <imgui.h>
+#include <list>
+#include <vector>
+#include <cstring>
+#include <pthread.h>
+#include <thread>
+#include <string>
+#include <jni.h>
+#include <unistd.h>
+#include <fstream>
+#include <iostream>
+#include <dlfcn.h>
+#include "Includes/Logger.h"
+#include "Includes/obfuscate.h"
+#include "Includes/Utils.h"
+#include "Menu/Menu.hpp"
+#include "Menu/Jni.hpp"
+#include "Includes/Macros.h"
+#include "dobby.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 
-// Глобальные или статические переменные для хранения состояния UI-элементов
-bool mode1 = false;
-bool mode2 = false;
+// Глобальные переменные для хранения состояния кнопок
+bool godmode = false;
+bool inf_run = false;
+bool speedhack = false;
+bool repair_car = false;
+bool inf_ammo = false;
+bool no_recoil = false;
+float menuColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-bool param1 = false;
-bool param2 = false;
-
-bool option1 = false;
-bool option2 = false;
-
-float menuColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Начальный цвет (белый)
-
-// Функция отрисовки главного окна меню
+// Главная функция отрисовки твоего меню
 void DrawMyMenuWindow(bool* p_open) {
-    // Создаем главное окно интерфейса
+    if (!p_open || !*p_open) return;
+
     ImGui::Begin("Главное Окно", p_open);
 
-    // ==========================================
-    // НАЧАЛО: Добавление панели вкладок (TabBar)
-    // ==========================================
     if (ImGui::BeginTabBar("MyMainTabBar")) {
-
-        // --- Игрок ---
+        
         if (ImGui::BeginTabItem("Игрок")) {
-            ImGui::Checkbox("Бесмертия", &mode1);
-            ImGui::Checkbox("Спидхак", &mode2);
+            ImGui::Checkbox("Бессмертие", &godmode);
+            ImGui::Checkbox("Спидхак бег", &inf_run);
             ImGui::EndTabItem();
         }
 
-        // --- Машина ---
         if (ImGui::BeginTabItem("Машина")) {
-            ImGui::Checkbox("Бесмертия 1", &param1);
-            ImGui::Checkbox("Спидхак 2", &param2);
+            ImGui::Checkbox("Спидхак авто", &speedhack);
+            ImGui::Checkbox("Починка машины", &repair_car);
             ImGui::EndTabItem();
         }
 
-        // --- ВКЛАДКА 3 ---
-        if (ImGui::BeginTabItem("Оружия")) {
-            ImGui::Checkbox("Хитбоксы", &option1);
-            ImGui::Checkbox("Антистан", &option2);
+        if (ImGui::BeginTabItem("Оружие")) {
+            ImGui::Checkbox("Хитбоксы", &inf_ammo);
+            ImGui::Checkbox("Антиотдача", &no_recoil);
             ImGui::EndTabItem();
         }
 
-        // --- Настройки ---
         if (ImGui::BeginTabItem("Настройки")) {
-            // Кнопка закрытия окна (меняет состояние флага видимости)
             if (ImGui::Button("Закрыть")) {
                 if (p_open != nullptr) {
-                    *p_open = false; 
+                    *p_open = false;
                 }
             }
-            
             ImGui::Spacing();
-            
-            // Ползунок выбора цвета (ColorEdit4 поддерживает RGBA каналы)
             ImGui::ColorEdit4("Цвет меню", menuColor);
-            
             ImGui::EndTabItem();
         }
 
         ImGui::EndTabBar();
     }
-    // ==========================================
-    // КОНЕЦ: Добавление панели вкладок
-    // ==========================================
 
     ImGui::End();
 }
