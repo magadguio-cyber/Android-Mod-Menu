@@ -2,8 +2,9 @@
 #include <string>
 
 // Підключаємо тільки чистий ImGui
-#include "imgui.h"
-#include "imgui_internal.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
+
 
 // Глобальні змінні для меню
 bool godmode = false;
