@@ -1,0 +1,39 @@
+name: Android NDK Build
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Android NDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install NDK via SDKManager
+      run: |
+        sdkmanager --install "ndk;25.1.8937393"
+
+    - name: Build with ndk-build
+      run: |
+        export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
+        $ANDROID_NDK_HOME/ndk-build NDK_PROJECT_PATH=app/src/main NDK_APPLICATION_MK=app/src/main/jni/Application.mk
+
+    - name: Upload SO Library artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-libs
+        path: app/src/main/libs/
+        
